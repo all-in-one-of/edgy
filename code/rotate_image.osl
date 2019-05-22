@@ -1,0 +1,24 @@
+float magnitude(vector v) {
+    return sqrt(v[0] * v[0] + v[1] * v[1]);
+}
+
+
+shader rotate_image(
+    vector a = vector(0),
+    vector b = vector(0, 1, 0),
+    output float angle = vector(0),
+){
+    angle = acos(dot(a, b) / (magnitude(a)*magnitude(b)));
+
+    vector st = vector(u, v, 0);
+    st -= 0.5;
+    st  = rotate(st, angle, point(0,0,0), vector(0,0,1));
+    st /= vector(1.0, 0.3, 1.0);
+    st += 0.5;
+
+    color tex = texture("C:/ZENO_2019/projects/vectorfield/animation-grunge-brush-stroke-abstract-footage-074752886_prevstill.jpeg", 
+                        st[0], 1.0-st[1], 
+                        "wrap", "clamp");
+                        
+    angle = tex[0];
+}
